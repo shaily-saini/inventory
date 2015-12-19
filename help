@@ -1,0 +1,65 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
+#
+# Also note: You'll have to insert the output of 'django-admin sqlcustom [app_label]'
+# into your database.
+from __future__ import unicode_literals
+
+from django.db import models
+
+
+class Custorder(models.Model):
+    orderid = models.AutoField(db_column='orderId', primary_key=True)  # Field name made lowercase.
+    ordernum = models.CharField(db_column='orderNum', max_length=50)  # Field name made lowercase.
+    orderdate = models.DateTimeField(db_column='orderDate')  # Field name made lowercase.
+    orderfordate = models.DateTimeField(db_column='orderForDate')  # Field name made lowercase.
+    orderlogemployee = models.SmallIntegerField(db_column='orderLogEmployee')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'custorder'
+
+
+class Item(models.Model):
+    itemid = models.AutoField(db_column='itemId', primary_key=True)  # Field name made lowercase.
+    itemname = models.CharField(db_column='itemName', unique=True, max_length=50)  # Field name made lowercase.
+    itemprice = models.FloatField(db_column='itemPrice', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'item'
+
+
+class Itemqtyunit(models.Model):
+    itemqtyunitid = models.SmallIntegerField(db_column='itemQtyUnitId', primary_key=True)  # Field name made lowercase.
+    itemid = models.IntegerField(db_column='itemId')  # Field name made lowercase.
+    qtyunitid = models.SmallIntegerField(db_column='qtyUnitId')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'itemqtyunit'
+
+
+class Orderitems(models.Model):
+    orderitemsid = models.AutoField(db_column='orderItemsId', primary_key=True)  # Field name made lowercase.
+    orderid = models.ForeignKey(Custorder, db_column='orderId')  # Field name made lowercase.
+    itemid = models.ForeignKey(Item, db_column='itemId')  # Field name made lowercase.
+    qtyunitid = models.SmallIntegerField(db_column='qtyUnitId')  # Field name made lowercase.
+    qty = models.SmallIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'orderitems'
+
+
+class Qtyunit(models.Model):
+    qtyunitid = models.SmallIntegerField(db_column='qtyUnitId', primary_key=True)  # Field name made lowercase.
+    qtyunitname = models.CharField(db_column='qtyUnitName', unique=True, max_length=50)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'qtyunit'
